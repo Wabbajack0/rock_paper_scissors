@@ -34,7 +34,7 @@ function newGame() {
 function askPick() {
   let pick = prompt("Choose one between rock paper or scissors");
   if (pick != "rock" && pick != "paper" && pick != "scissors") {
-    alert(pick + "is not a valid pick, try again");
+    alert(pick + " is not a valid pick, try again");
     newGame();
   }
   return pick;
