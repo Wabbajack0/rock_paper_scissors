@@ -2,42 +2,85 @@ let pcPick;
 let playerPick;
 let pcScore;
 let playerScore;
+const BEST_OF = 5;
+const TIMEOUT = 800;
+
+const announcer = document.querySelector('.announcer');
+const start = document.querySelector('#start');
+const buttons = document.querySelectorAll('div button');
+const pcScoreElement = document.querySelector('#pc-score');
+const playerScoreElement = document.querySelector('#player-score');
+
 newGame();
 
 function newGame() {
-  alert("Let's play a new game!");
+  announcer.textContent = 'To play a new game, press START (best of ' +
+    BEST_OF + ')';
+  start.textContent = 'START';
+  start.removeEventListener('click', newGame);
+  start.addEventListener('click', startGame);
   pcPick = 0;
   playerPick = 0;
   playerScore = 0;
   pcScore = 0;
-  for (var i = 1; i <= 5; i++) {
-    playerPick = askPick();
-    alert("Pick saved, PC now is picking...");
-    pcPick = randomPick();
-    alert("PC picked " + pcPick + "!");
-    addScore(playerPick, pcPick);
-    alert("Score is now:\n" +
-      "Player: " + playerScore + "\n" +
-      "PC: " + pcScore + "\n" +
-      "Game " + i + "/5");
-  }
-  if (playerScore > pcScore) {
-    alert("You Won! Lets play again!");
-  } else if (playerScore < pcScore) {
-    alert("You Lost! Lets try again!");
-  } else {
-    alert("It's a draw! Lets play again!");
-  }
-  newGame();
+  playerScoreElement.textContent = playerScore;
+  pcScoreElement.textContent = pcScore;
+}
+
+function startGame() {
+  start.textContent = 'RESET';
+  start.removeEventListener('click', startGame);
+  start.addEventListener('click', newGame);
+  announcer.textContent = 'Choose one between rock, paper or scissors';
+  askPick();
 }
 
 function askPick() {
-  let pick = prompt("Choose one between rock paper or scissors");
-  if (pick != "rock" && pick != "paper" && pick != "scissors") {
-    alert(pick + " is not a valid pick, try again");
-    newGame();
+  if (playerScore == BEST_OF || pcScore == BEST_OF) {
+    showWhoWon();
+    start.textContent = 'PLAY AGAIN';
+    return;
   }
-  return pick;
+  buttons.forEach(button => {
+    button.addEventListener('click', actualGame);
+  });
+}
+
+function actualGame(e) {
+  playerPick = e.target.name;
+  announcer.textContent = 'Pick saved, PC is now picking...';
+  setTimeout(showPick, TIMEOUT);
+  setTimeout(removeButtonsListeners, 2 * TIMEOUT);
+  setTimeout(askAgain, 3 * TIMEOUT);
+}
+
+function showPick() {
+  pcPick = randomPick();
+  announcer.textContent = 'PC picked ' + pcPick + '!';
+  addScore(playerPick, pcPick);
+  playerScoreElement.textContent = playerScore;
+  pcScoreElement.textContent = pcScore;
+}
+
+function showWhoWon() {
+  if (playerScore == BEST_OF) {
+    announcer.textContent = "You Won! Lets play again!";
+  } else if (pcScore == BEST_OF) {
+    announcer.textContent = "You Lost! Lets try again!";
+  } else {
+    announcer.textContent = "Something went wrong";
+  }
+}
+
+function removeButtonsListeners() {
+  buttons.forEach(button => {
+    button.removeEventListener('click', actualGame);
+  });
+}
+
+function askAgain() {
+  announcer.textContent = 'Choose one between rock, paper or scissors';
+  askPick();
 }
 
 function randomPick() {
@@ -89,6 +132,7 @@ function addScore(player, pc) {
           break;
       }
       break;
+    default:
   }
 
 }
