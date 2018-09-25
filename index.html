@@ -5,22 +5,28 @@
   <meta charset="utf-8">
   <title>Rock Paper Scissors</title>
   <link rel="stylesheet" href="rock_paper_scissors.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 </head>
 
 <body>
-  <div class="announcer">
-  </div>
-  <button type="button" name="start" id="start"></button>
-  <div class="container">
-    <button type="button" name="rock">ROCK</button>
-    <button type="button" name="paper">PAPER</button>
-    <button type="button" name="scissors">SCISSORS</button>
-  </div>
-  <div class="score-container">
-    Player: <span class="score" id=player-score></span>
-    PC: <span class="score" id=pc-score></span>
-  </div>
+  <div class="main-container">
 
+    <div class="announcer"></div>
+
+    <button type="button" name="start" id="start"></button>
+
+    <div class="button-container">
+      <button type="button" name="rock" class="object">ROCK</button>
+      <button type="button" name="paper" class="object">PAPER</button>
+      <button type="button" name="scissors" class="object">SCISSORS</button>
+    </div>
+
+    <div class="score-container">
+      Player: <span class="score" id=player-score></span>
+      PC: <span class="score" id=pc-score></span>
+    </div>
+
+  </div>
   <script type="text/javascript" src="rock_paper_scissors.js">
 
   </script>

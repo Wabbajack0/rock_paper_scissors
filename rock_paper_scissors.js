@@ -7,7 +7,7 @@ const TIMEOUT = 800;
 
 const announcer = document.querySelector('.announcer');
 const start = document.querySelector('#start');
-const buttons = document.querySelectorAll('div button');
+const buttons = document.querySelectorAll('.object');
 const pcScoreElement = document.querySelector('#pc-score');
 const playerScoreElement = document.querySelector('#player-score');
 
